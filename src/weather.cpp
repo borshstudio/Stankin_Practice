@@ -1,4 +1,4 @@
-//
+ï»¿//
 // Created by ASUS on 24.03.2026.
 //
 
@@ -21,20 +21,20 @@ using std::round;
 typedef enum { max_to4nost = 3, min_to4nost = 1, to4nost = 2 } TO4NOST;
 
 
-// ïåğåâîä òåìïåğàòóğû èç Êóëüâèíîâ â Öåëüñèÿ
+// Ğ¿ĞµÑ€ĞµĞ²Ğ¾Ğ´ Ñ‚ĞµĞ¼Ğ¿ĞµÑ€Ğ°Ñ‚ÑƒÑ€Ñ‹ Ğ¸Ğ· ĞšÑƒĞ»ÑŒĞ²Ğ¸Ğ½Ğ¾Ğ² Ğ² Ğ¦ĞµĞ»ÑŒÑĞ¸Ñ
 double ubersetzen_kel_4el(double a)
 {
     return a - KEL;
 }
 
-// ïåğåâîä ïàñêàëåé â ìì ğò ñò
+// Ğ¿ĞµÑ€ĞµĞ²Ğ¾Ğ´ Ğ¿Ğ°ÑĞºĞ°Ğ»ĞµĞ¹ Ğ² Ğ¼Ğ¼ Ñ€Ñ‚ ÑÑ‚
 double ubersetzen_pas_mm(double a)
 {
     return a * KOF_MM;
 }
 
 
-// ôîğìàòèğîâàííûé âûâîä
+// Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ‚Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½Ğ½Ñ‹Ğ¹ Ğ²Ñ‹Ğ²Ğ¾Ğ´
 double format_value(double value, TO4NOST to4)
 {
     if (to4 == max_to4nost)
@@ -46,7 +46,7 @@ double format_value(double value, TO4NOST to4)
     return std::round(value);
 }
 
-// ôîğìàòèğîâàííîå âğåìÿ
+// Ñ„Ğ¾Ñ€Ğ¼Ğ°Ñ‚Ğ¸Ñ€Ğ¾Ğ²Ğ°Ğ½Ğ½Ğ¾Ğµ Ğ²Ñ€ĞµĞ¼Ñ
 string format_time(long long time_n, int our_pois)
 {
     time_t loc_time = (time_t)(time_n + our_pois);
@@ -61,33 +61,33 @@ string format_time(long long time_n, int our_pois)
 
 
 
-// êëàññ ïîãîäû
+// ĞºĞ»Ğ°ÑÑ Ğ¿Ğ¾Ğ³Ğ¾Ğ´Ñ‹
 class Weather_Now
 {
 private:
-    string city_name;   // íàçâàíèå ãîğîäà
+    string city_name;   // Ğ½Ğ°Ğ·Ğ²Ğ°Ğ½Ğ¸Ğµ Ğ³Ğ¾Ñ€Ğ¾Ğ´Ğ°
 
-    double temp_kel;    // òåìïåğàòóğà â êåëüâèíàõ
-    double temp_4el;    // òåìïåğàòóğà â ãğàäóñàõ öåëüñèÿ
-    int vlaga;   // âëàæíîñòü
-    double dav_pas;     // äàâëåíèå â ïàñêàëÿõ
-    double dav; // äàâëåíèå â ìì
+    double temp_kel;    // Ñ‚ĞµĞ¼Ğ¿ĞµÑ€Ğ°Ñ‚ÑƒÑ€Ğ° Ğ² ĞºĞµĞ»ÑŒĞ²Ğ¸Ğ½Ğ°Ñ…
+    double temp_4el;    // Ñ‚ĞµĞ¼Ğ¿ĞµÑ€Ğ°Ñ‚ÑƒÑ€Ğ° Ğ² Ğ³Ñ€Ğ°Ğ´ÑƒÑĞ°Ñ… Ñ†ĞµĞ»ÑŒÑĞ¸Ñ
+    int vlaga;   // Ğ²Ğ»Ğ°Ğ¶Ğ½Ğ¾ÑÑ‚ÑŒ
+    double dav_pas;     // Ğ´Ğ°Ğ²Ğ»ĞµĞ½Ğ¸Ğµ Ğ² Ğ¿Ğ°ÑĞºĞ°Ğ»ÑÑ…
+    double dav; // Ğ´Ğ°Ğ²Ğ»ĞµĞ½Ğ¸Ğµ Ğ² Ğ¼Ğ¼
 
-    double speed_wind;  // ñêîğîñòü âåòğà
-    int wind_deg; // íàïğàâëåíèå âåòğà
-    double gust; // ïîğûâû âåòğà
+    double speed_wind;  // ÑĞºĞ¾Ñ€Ğ¾ÑÑ‚ÑŒ Ğ²ĞµÑ‚Ñ€Ğ°
+    int wind_deg; // Ğ½Ğ°Ğ¿Ñ€Ğ°Ğ²Ğ»ĞµĞ½Ğ¸Ğµ Ğ²ĞµÑ‚Ñ€Ğ°
+    double gust; // Ğ¿Ğ¾Ñ€Ñ‹Ğ²Ñ‹ Ğ²ĞµÑ‚Ñ€Ğ°
 
-    int time_zona;  // ÷àñîâîé ïîÿñ
-    long long time_3amer;   // âğåìÿ çàìåğà
-    long long time_3akat, time_pacvet;  //âğåìÿ çàêàòà è ğàññâåòà
+    int time_zona;  // Ñ‡Ğ°ÑĞ¾Ğ²Ğ¾Ğ¹ Ğ¿Ğ¾ÑÑ
+    long long time_3amer;   // Ğ²Ñ€ĞµĞ¼Ñ Ğ·Ğ°Ğ¼ĞµÑ€Ğ°
+    long long time_3akat, time_pacvet;  //Ğ²Ñ€ĞµĞ¼Ñ Ğ·Ğ°ĞºĞ°Ñ‚Ğ° Ğ¸ Ñ€Ğ°ÑÑĞ²ĞµÑ‚Ğ°
 
-    string opic;    // îïèñàíèå
+    string opic;    // Ğ¾Ğ¿Ğ¸ÑĞ°Ğ½Ğ¸Ğµ
 
 
 
 
 public:
-    Weather_Now(string name, double t_k) { // óïğîùåííîå îáúÿâëåíèå
+    Weather_Now(string name, double t_k) { // ÑƒĞ¿Ñ€Ğ¾Ñ‰ĞµĞ½Ğ½Ğ¾Ğµ Ğ¾Ğ±ÑŠÑĞ²Ğ»ĞµĞ½Ğ¸Ğµ
         city_name = name;
         temp_kel = t_k;
         temp_4el = ubersetzen_kel_4el(t_k);
@@ -105,10 +105,10 @@ public:
         time_3akat = -1;
         time_pacvet = -1;
 
-        opic = "Íåò äàííûõ.";
+        opic = "ĞĞµÑ‚ Ğ´Ğ°Ğ½Ğ½Ñ‹Ñ….";
     }
 
-    // ïîëíîöåííîå îáúÿâëåíèå
+    // Ğ¿Ğ¾Ğ»Ğ½Ğ¾Ñ†ĞµĞ½Ğ½Ğ¾Ğµ Ğ¾Ğ±ÑŠÑĞ²Ğ»ĞµĞ½Ğ¸Ğµ
     Weather_Now(string name, double t_k = -1.0, int vlag = -1, double davlen = -1.0, double sp_w = -1.0,
         int deg = -1, double gg = -1.0, int t_z = -1, long long t = -1,
         long long t_3 = -1, long long t_p = -1) {
@@ -135,17 +135,17 @@ public:
         time_3akat = t_3;
         time_pacvet = t_p;
 
-        opic = "Íåò äàííûõ.";
+        opic = "ĞĞµÑ‚ Ğ´Ğ°Ğ½Ğ½Ñ‹Ñ….";
     }
 
 
-    // âûäàòü áàçó
-    // âûäàòü ãîğîä
+    // Ğ²Ñ‹Ğ´Ğ°Ñ‚ÑŒ Ğ±Ğ°Ğ·Ñƒ
+    // Ğ²Ñ‹Ğ´Ğ°Ñ‚ÑŒ Ğ³Ğ¾Ñ€Ğ¾Ğ´
     string get_city_name() const {
         return city_name;
     }
 
-    // âûäàòü òåìïåğàòóğà â êåëüâèíàçõ
+    // Ğ²Ñ‹Ğ´Ğ°Ñ‚ÑŒ Ñ‚ĞµĞ¼Ğ¿ĞµÑ€Ğ°Ñ‚ÑƒÑ€Ğ° Ğ² ĞºĞµĞ»ÑŒĞ²Ğ¸Ğ½Ğ°Ğ·Ñ…
     double get_temp_kel(TO4NOST to4) const {
         if (temp_kel != -1.0)
             return format_value(temp_kel, to4);
@@ -153,7 +153,7 @@ public:
             return -1.0;
     }
 
-    // âûäàòü òåìïåğàóòğà â öåëüñèÿ
+    // Ğ²Ñ‹Ğ´Ğ°Ñ‚ÑŒ Ñ‚ĞµĞ¼Ğ¿ĞµÑ€Ğ°ÑƒÑ‚Ñ€Ğ° Ğ² Ñ†ĞµĞ»ÑŒÑĞ¸Ñ
     double get_temp_4el(TO4NOST to4) const {
         if (temp_4el != -1.0)
             return format_value(temp_4el, to4);
@@ -161,7 +161,7 @@ public:
             return -1.0;
     }
 
-    // âûäàòü âëàæíîñòü
+    // Ğ²Ñ‹Ğ´Ğ°Ñ‚ÑŒ Ğ²Ğ»Ğ°Ğ¶Ğ½Ğ¾ÑÑ‚ÑŒ
     int get_vlaga() const {
         if (vlaga != -1.0)
             return round((double)vlaga);
@@ -169,7 +169,7 @@ public:
             return -1;
     }
 
-    // âûäàòü ñêîğîñòü âåòğà
+    // Ğ²Ñ‹Ğ´Ğ°Ñ‚ÑŒ ÑĞºĞ¾Ñ€Ğ¾ÑÑ‚ÑŒ Ğ²ĞµÑ‚Ñ€Ğ°
     double get_speed_wind(TO4NOST to4) const {
         if (speed_wind != -1.0)
             return format_value(speed_wind, to4);
@@ -177,25 +177,25 @@ public:
             return -1.0;
     }
 
-    // âûäàòü îïèñàíèå
+    // Ğ²Ñ‹Ğ´Ğ°Ñ‚ÑŒ Ğ¾Ğ¿Ğ¸ÑĞ°Ğ½Ğ¸Ğµ
     string get_opic() const {
         return opic;
     }
 
-    // âûäàâàòü íàïğàâëåíèå âåòğà
+    // Ğ²Ñ‹Ğ´Ğ°Ğ²Ğ°Ñ‚ÑŒ Ğ½Ğ°Ğ¿Ñ€Ğ°Ğ²Ğ»ĞµĞ½Ğ¸Ğµ Ğ²ĞµÑ‚Ñ€Ğ°
     string get_wind_direction_text() const {
-        if (wind_deg >= 337.5 || wind_deg < 22.5)   return "Ñåâåğíûé";
-        if (wind_deg >= 22.5 && wind_deg < 67.5)   return "Ñåâåğî-âîñòî÷íûé";
-        if (wind_deg >= 67.5 && wind_deg < 112.5)  return "Âîñòî÷íûé";
-        if (wind_deg >= 112.5 && wind_deg < 157.5)  return "Şãî-âîñòî÷íûé";
-        if (wind_deg >= 157.5 && wind_deg < 202.5)  return "Şæíûé";
-        if (wind_deg >= 202.5 && wind_deg < 247.5)  return "Şãî-çàïàäíûé";
-        if (wind_deg >= 247.5 && wind_deg < 292.5)  return "Çàïàäíûé";
-        if (wind_deg >= 292.5 && wind_deg < 337.5)  return "Ñåâåğî-çàïàäíûé";
-        return "Íåèçâåñòíî";
+        if (wind_deg >= 337.5 || wind_deg < 22.5)   return "Ğ¡ĞµĞ²ĞµÑ€Ğ½Ñ‹Ğ¹";
+        if (wind_deg >= 22.5 && wind_deg < 67.5)   return "Ğ¡ĞµĞ²ĞµÑ€Ğ¾-Ğ²Ğ¾ÑÑ‚Ğ¾Ñ‡Ğ½Ñ‹Ğ¹";
+        if (wind_deg >= 67.5 && wind_deg < 112.5)  return "Ğ’Ğ¾ÑÑ‚Ğ¾Ñ‡Ğ½Ñ‹Ğ¹";
+        if (wind_deg >= 112.5 && wind_deg < 157.5)  return "Ğ®Ğ³Ğ¾-Ğ²Ğ¾ÑÑ‚Ğ¾Ñ‡Ğ½Ñ‹Ğ¹";
+        if (wind_deg >= 157.5 && wind_deg < 202.5)  return "Ğ®Ğ¶Ğ½Ñ‹Ğ¹";
+        if (wind_deg >= 202.5 && wind_deg < 247.5)  return "Ğ®Ğ³Ğ¾-Ğ·Ğ°Ğ¿Ğ°Ğ´Ğ½Ñ‹Ğ¹";
+        if (wind_deg >= 247.5 && wind_deg < 292.5)  return "Ğ—Ğ°Ğ¿Ğ°Ğ´Ğ½Ñ‹Ğ¹";
+        if (wind_deg >= 292.5 && wind_deg < 337.5)  return "Ğ¡ĞµĞ²ĞµÑ€Ğ¾-Ğ·Ğ°Ğ¿Ğ°Ğ´Ğ½Ñ‹Ğ¹";
+        return "ĞĞµĞ¸Ğ·Ğ²ĞµÑÑ‚Ğ½Ğ¾";
     }
 
-    // âûäàòü äàâëåíèå â ïàñêàëÿõ
+    // Ğ²Ñ‹Ğ´Ğ°Ñ‚ÑŒ Ğ´Ğ°Ğ²Ğ»ĞµĞ½Ğ¸Ğµ Ğ² Ğ¿Ğ°ÑĞºĞ°Ğ»ÑÑ…
     double get_dav_pas(TO4NOST to4) {
         if (dav_pas != -1.0)
             return format_value(dav_pas, to4);
@@ -203,7 +203,7 @@ public:
             return -1.0;
     }
 
-    // âûäàòü äàâëåíèå
+    // Ğ²Ñ‹Ğ´Ğ°Ñ‚ÑŒ Ğ´Ğ°Ğ²Ğ»ĞµĞ½Ğ¸Ğµ
     double get_dav(TO4NOST to4) {
         if (dav != -1.0)
             return format_value(dav, to4);
@@ -211,7 +211,7 @@ public:
             return -1.0;
     }
 
-    // âûäàòü ïîğûâû âåòğà
+    // Ğ²Ñ‹Ğ´Ğ°Ñ‚ÑŒ Ğ¿Ğ¾Ñ€Ñ‹Ğ²Ñ‹ Ğ²ĞµÑ‚Ñ€Ğ°
     double get_gust(TO4NOST to4) {
         if (gust != -1.0)
             return format_value(gust, to4);
@@ -219,31 +219,31 @@ public:
             return -1.0;
     }
 
-    // âûäàòëü âğåìÿ çàìåğà
+    // Ğ²Ñ‹Ğ´Ğ°Ñ‚Ğ»ÑŒ Ğ²Ñ€ĞµĞ¼Ñ Ğ·Ğ°Ğ¼ĞµÑ€Ğ°
     string get_time_3amer() const {
         if (time_3amer != -1.0)
             return format_time(time_3amer, time_zona);
         else
-            return "Íåò äàííûõ.";
+            return "ĞĞµÑ‚ Ğ´Ğ°Ğ½Ğ½Ñ‹Ñ….";
     }
 
-    // âûäàòü âğåìÿ ğàññâåòà 
+    // Ğ²Ñ‹Ğ´Ğ°Ñ‚ÑŒ Ğ²Ñ€ĞµĞ¼Ñ Ñ€Ğ°ÑÑĞ²ĞµÑ‚Ğ° 
     string get_time_pacvet() const {
         if (time_pacvet != -1.0)
             return format_time(time_pacvet, time_zona);
         else
-            return "Íåò äàííûõ.";
+            return "ĞĞµÑ‚ Ğ´Ğ°Ğ½Ğ½Ñ‹Ñ….";
     }
 
-    // âûäàòü âğåìÿ çàêàòà
+    // Ğ²Ñ‹Ğ´Ğ°Ñ‚ÑŒ Ğ²Ñ€ĞµĞ¼Ñ Ğ·Ğ°ĞºĞ°Ñ‚Ğ°
     string get_time_3akat() const {
         if (time_3akat != -1.0)
             return format_time(time_3akat, time_zona);
         else
-            return "Íåò äàííûõ.";
+            return "ĞĞµÑ‚ Ğ´Ğ°Ğ½Ğ½Ñ‹Ñ….";
     }
 
-    //äåíü ëè ıòî
+    //Ğ´ĞµĞ½ÑŒ Ğ»Ğ¸ ÑÑ‚Ğ¾
     bool is_daytime() const {
         if (time_3amer == -1 || time_pacvet == -1 || time_3akat == -1) {
             return true;
