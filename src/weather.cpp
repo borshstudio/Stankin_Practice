@@ -12,6 +12,7 @@
 #include <iostream>
 #include <string>
 #include <optional>
+#include <stdexcept>
 
 
 using std::string;
@@ -53,7 +54,7 @@ namespace WeatherUtils {
         return std::round(value);
     }
 
-    // форматированное вывод времени
+    // форматированный вывод времени
     string formatTimestamp(long long timestamp, int timezoneOffset)
     {
         time_t loc_time = (time_t)(timestamp + timezoneOffset);
@@ -65,6 +66,7 @@ namespace WeatherUtils {
         return string(buffer);
     }
 }
+
 
 
 
@@ -91,8 +93,6 @@ private:
     string description;                           // описание
 
 
-
-
 public:
     // конструктор по умолчанию
     Weather_Now(const string& name) : cityName(name) {
@@ -112,7 +112,7 @@ public:
         optional<long long> measTime = nullopt,
         optional<long long> sunset = nullopt,
         optional<long long> sunrise = nullopt,
-        const string& desc = "Нет данных.") : 
+        const string& desc = "Нет данных.") :
         cityName(name),
         temperatureKelvin(kelvin),
         humidity(hum),
@@ -134,8 +134,6 @@ public:
             pressureMmHg = WeatherUtils::pascal_To_MmHg(pressurePascal.value());
         }
     }
-
-
 
     // выдать название города
     string get_cityName() const {
@@ -219,12 +217,18 @@ public:
         }
         return WeatherUtils::formatTimestamp(sunriseTime.value(), timezoneOffset.value());
     }
+
     // выдать время заката
     string get_sunsetTime() const {
         if (!sunsetTime.has_value() || !timezoneOffset.has_value()) {
             return "Нет данных.";
         }
         return WeatherUtils::formatTimestamp(sunsetTime.value(), timezoneOffset.value());
+    }
+
+    // выдать часовой пояс
+    optional<int> get_timezoneOffset() const {
+        return timezoneOffset;
     }
 
     // проверка дня/ночи
@@ -235,5 +239,97 @@ public:
         return (measurementTime.value() >= sunriseTime.value() &&
             measurementTime.value() <= sunsetTime.value());
     }
+
+    // задать названия города
+    void set_cityName(const string& name) {
+        cityName = name;
+    }
+
+    // задать температуры
+    void set_temperatureKelvin(double kelvin) {
+        temperatureKelvin = kelvin;
+        temperatureCelsius = WeatherUtils::kelvin_To_Celsius(kelvin);
+        // TODO
+    }
+
+    // задать влажности
+    void set_humidity(int hum) {
+        humidity = hum;
+        // TODO
+    }
+
+    // задать давления
+    void set_pressurePascal(double pascal) {
+        pressurePascal = pascal;
+        pressureMmHg = WeatherUtils::pascal_To_MmHg(pascal);
+        // TODO
+    }
+
+    // задать скорости ветра
+    void set_windSpeed(double speed) {
+        windSpeed = speed;
+        // TODO
+    }
+
+    // задать направление ветра (в градусах)
+    void set_windDegrees(int deg) {
+        windDegrees = deg;
+        // TODO
+    }
+
+    // задать порывы ветра
+    void set_windGust(double gust) {
+        windGust = gust;
+        // TODO
+    }
+
+    // задать часового пояса
+    void set_timezoneOffset(int offset) {
+        timezoneOffset = offset;
+        // TODO
+    }
+
+    // задать времени замера
+    void set_measurementTime(long long time) {
+        measurementTime = time;
+        // TODO
+    }
+
+    // задать времени заката
+    void set_sunsetTime(long long time) {
+        sunsetTime = time;
+        // TODO
+    }
+
+    // задать времени рассвета
+    void set_sunriseTime(long long time) {
+        sunriseTime = time;
+        // TODO
+    }
+
+    // задать описания
+    void set_description(const string& desc) {
+        description = desc;
+        // TODO
+    }
+
+    // задать новый комплект данных сразу
+    void updateAll(
+        optional<double> kelvin = nullopt,
+        optional<int> hum = nullopt,
+        optional<double> pascal = nullopt,
+        optional<double> windSpd = nullopt,
+        optional<int> windDeg = nullopt,
+        optional<double> gust = nullopt,
+        optional<int> tzOffset = nullopt,
+        optional<long long> measTime = nullopt,
+        optional<long long> sunset = nullopt,
+        optional<long long> sunrise = nullopt,
+        const string& desc = "Нет данных."
+    ) {
+        throw std::logic_error("Not implemented yet");
+        // TODO
+    }
+
 
 };
