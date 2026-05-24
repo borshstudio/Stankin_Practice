@@ -15,6 +15,57 @@
 extern std::string readUtf8Line();
 
 
+class FavoritesManager {
+private:
+    std::vector<std::string> list;
+    const std::string filename = "favorites.txt";
+
+    void loadFromFile() {
+        std::ifstream file(filename);
+        std::string city;
+        while (std::getline(file, city)) {
+            if (!city.empty()) list.push_back(city);
+        }
+    }
+
+    void saveToFile() const {
+        std::ofstream file(filename);
+        for (const auto& city : list) {
+            file << city << "\n";
+        }
+    }
+
+public:
+    FavoritesManager() { loadFromFile(); }
+
+    bool contains(const std::string& city) const {
+        for (const auto& fav : list) {
+            if (fav == city) return true;
+        }
+        return false;
+    }
+
+    void add(const std::string& city) {
+        if (!contains(city)) {
+            list.push_back(city);
+            saveToFile();
+        }
+    }
+
+    void removeAt(int index) {
+        if (index >= 0 && index < (int)list.size()) {
+            list.erase(list.begin() + index);
+            saveToFile();
+        }
+    }
+
+    const std::vector<std::string>& getList() const { return list; }
+    bool isEmpty() const { return list.empty(); }
+    int size() const { return (int)list.size(); }
+};
+
+
+
 void showWeatherForCity(const std::string& city, const std::string& apiKey) {
     ApiResult result = requestWeatherFromApi(city, apiKey);
 
@@ -66,29 +117,9 @@ void showWeatherByCity(const std::string& apiKey) {
 
 
 
-std::vector<std::string> loadFavorites() {
-    std::vector<std::string> favorites;
-    std::ifstream file("favorites.txt");
-    std::string city;
-
-    while (std::getline(file, city)) {
-        if (!city.empty()) favorites.push_back(city);
-    }
-    return favorites;
-}
-
-
-
-void saveFavorites(const std::vector<std::string>& favorites) {
-    std::ofstream file("favorites.txt");
-    for (const auto& city : favorites) {
-        file << city << "\n";
-    }
-}
-
-
-
 void favoritesMenu(const std::string& apiKey) {
+    FavoritesManager favs;
+
     while (true) {
         std::cout << "\n=== ИЗБРАННЫЕ ГОРОДА ===\n";
         std::cout << "1) Показать список\n";
@@ -98,46 +129,43 @@ void favoritesMenu(const std::string& apiKey) {
         std::cout << "0) Назад\n";
         std::cout << "Ваш выбор: ";
 
-        std::string choice;
-        choice = readUtf8Line();
-        auto favorites = loadFavorites();
+        std::string choice = readUtf8Line();
+
         if (choice == "1") {
-            if (favorites.empty()) {
+            if (favs.isEmpty()) {
                 std::cout << "Список пуст.\n";
             }
             else {
-                for (int i = 0; i < favorites.size(); ++i)
-                    std::cout << i + 1 << ") " << favorites[i] << "\n";
+                const auto& list = favs.getList();
+                for (int i = 0; i < favs.size(); ++i) {
+                    std::cout << i + 1 << ") " << list[i] << "\n";
+                }
             }
         }
         else if (choice == "2") {
-            std::string city;
             std::cout << "Введите город: ";
-            city = readUtf8Line();
+            std::string city = readUtf8Line();
             if (!city.empty()) {
                 city = translateCityToEnglish(city);
-                if (isCityInFavorites(city)) {
+                if (favs.contains(city)) {
                     printWarning("[!] Этот город уже в избранном.");
                 }
                 else {
-                    favorites.push_back(city);
-                    saveFavorites(favorites);
+                    favs.add(city);
                     printOk("[OK] Город добавлен.");
                 }
             }
         }
         else if (choice == "3") {
-            if (favorites.empty()) {
+            if (favs.isEmpty()) {
                 std::cout << "Список пуст.\n";
                 continue;
             }
             std::cout << "Введите номер: ";
-            std::string n;
-            n = readUtf8Line();
+            std::string n = readUtf8Line();
             int idx = safeStoi(n) - 1;
-            if (idx >= 0 && idx < (int)favorites.size()) {
-                favorites.erase(favorites.begin() + idx);
-                saveFavorites(favorites);
+            if (idx >= 0 && idx < favs.size()) {
+                favs.removeAt(idx);
                 printOk("[OK] Город удален.");
             }
             else {
@@ -145,13 +173,12 @@ void favoritesMenu(const std::string& apiKey) {
             }
         }
         else if (choice == "4") {
-            if (favorites.empty()) continue;
+            if (favs.isEmpty()) continue;
             std::cout << "Введите номер: ";
-            std::string n;
-            n = readUtf8Line();
+            std::string n = readUtf8Line();
             int idx = safeStoi(n) - 1;
-            if (idx >= 0 && idx < (int)favorites.size()) {
-                showWeatherForCity(favorites[idx], apiKey);
+            if (idx >= 0 && idx < favs.size()) {
+                showWeatherForCity(favs.getList()[idx], apiKey);
             }
             else {
                 printError("[ERROR] Неверный номер.");
@@ -337,16 +364,12 @@ std::string translateCityToEnglish(const std::string& input) {
 }
 
 
-
+/*
 bool isCityInFavorites(const std::string& city) {
-    auto favorites = loadFavorites();
-    for (const auto& fav : favorites) {
-        if (fav == city) 
-            return true;
-    }
-    return false;
+    FavoritesManager favs;
+    return favs.contains(city);
 }
-
+*/
 
 
 int safeStoi(const std::string& str, int fallback) {
