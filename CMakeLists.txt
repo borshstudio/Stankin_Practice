@@ -3,9 +3,14 @@ cmake_minimum_required(VERSION 3.20)
 project(WeatherApp)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Опция для включения тестов
+option(BUILD_TESTS "Build unit tests" ON)
 
 include(FetchContent)
 
+# Настройки для CPR
 set(CPR_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(CPR_FORCE_USE_SYSTEM_CURL OFF CACHE BOOL "" FORCE)
 set(CPR_USE_SYSTEM_CURL OFF CACHE BOOL "" FORCE)
@@ -25,8 +30,8 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(cpr)
 FetchContent_MakeAvailable(json)
 
-add_executable(WeatherApp
-        main.cpp
+# Основная библиотека приложения
+add_library(WeatherAppLib STATIC
         api.cpp
         api.h
         weather.cpp
@@ -35,10 +40,19 @@ add_executable(WeatherApp
         utils.h
 )
 
-target_link_libraries(WeatherApp PRIVATE
+target_link_libraries(WeatherAppLib PRIVATE
         cpr::cpr
         nlohmann_json::nlohmann_json
 )
+
+target_include_directories(WeatherAppLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+# Исполняемый файл приложения
+add_executable(WeatherApp
+        main.cpp
+)
+
+target_link_libraries(WeatherApp PRIVATE WeatherAppLib)
 
 if (WIN32)
     add_custom_command(TARGET WeatherApp POST_BUILD
@@ -49,7 +63,39 @@ if (WIN32)
     )
 endif()
 
-
 if (MSVC)
     target_compile_options(WeatherApp PRIVATE /utf-8)
+    target_compile_options(WeatherAppLib PRIVATE /utf-8)
+endif()
+
+# Юнит тесты
+if(BUILD_TESTS)
+    enable_testing()
+    
+    FetchContent_Declare(
+            googletest
+            GIT_REPOSITORY https://github.com/google/googletest.git
+            GIT_TAG v1.15.2
+    )
+    
+    FetchContent_MakeAvailable(googletest)
+    
+    add_executable(WeatherAppTests
+            tests/test_api.cpp
+            tests/test_weather.cpp
+    )
+    
+    target_link_libraries(WeatherAppTests PRIVATE
+            WeatherAppLib
+            gtest_main
+            cpr::cpr
+            nlohmann_json::nlohmann_json
+    )
+    
+    if(MSVC)
+        target_compile_options(WeatherAppTests PRIVATE /utf-8)
+    endif()
+    
+    include(GoogleTest)
+    gtest_discover_tests(WeatherAppTests)
 endif()
