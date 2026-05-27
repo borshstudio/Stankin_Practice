@@ -9,10 +9,62 @@
 #include <algorithm>
 #include <unordered_map>
 #include <cstdint>
+
+#include <iostream>
+#include <string>
+
+#ifdef _WIN32
 #include <windows.h>
+#endif
 
+std::string readUtf8Line() {
+#ifdef _WIN32
+    HANDLE hConsole = GetStdHandle(STD_INPUT_HANDLE);
 
-extern std::string readUtf8Line();
+    if (hConsole == INVALID_HANDLE_VALUE) {
+        std::string fallback;
+        std::getline(std::cin, fallback);
+        return fallback;
+    }
+
+    WCHAR buffer[1024];
+    DWORD charsRead = 0;
+
+    if (!ReadConsoleW(hConsole, buffer, 1024, &charsRead, nullptr)) {
+        std::string fallback;
+        std::getline(std::cin, fallback);
+        return fallback;
+    }
+
+    while (charsRead > 0 &&
+           (buffer[charsRead - 1] == L'\r' || buffer[charsRead - 1] == L'\n')) {
+        charsRead--;
+    }
+
+    int utf8Len = WideCharToMultiByte(
+        CP_UTF8, 0,
+        buffer, charsRead,
+        nullptr, 0,
+        nullptr, nullptr
+    );
+
+    std::string result(utf8Len, '\0');
+
+    WideCharToMultiByte(
+        CP_UTF8, 0,
+        buffer, charsRead,
+        &result[0], utf8Len,
+        nullptr, nullptr
+    );
+
+    return result;
+
+#else
+    std::string input;
+    std::getline(std::cin, input);
+    return input;
+#endif
+}
 
 
 void showWeatherForCity(const std::string& city, const std::string& apiKey) {

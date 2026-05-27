@@ -7,44 +7,14 @@
 // #include <codecvt>
 // #include <locale>
 
+#include <iostream>
+#include <string>
+
 #ifdef _WIN32
 #include <windows.h>
 #endif
 
 
-inline std::string readUtf8Line() {
-    HANDLE hConsole = GetStdHandle(STD_INPUT_HANDLE);
-    if (hConsole == INVALID_HANDLE_VALUE) {
-        std::string fallback;
-        std::getline(std::cin, fallback);
-        return fallback;
-    }
-
-    WCHAR buffer[1024];
-    DWORD charsRead = 0;
-    if (!ReadConsoleW(hConsole, buffer, 1024, &charsRead, nullptr)) {
-        std::string fallback;
-        std::getline(std::cin, fallback);
-        return fallback;
-    }
-
-    while (charsRead > 0 && (buffer[charsRead - 1] == L'\r' || buffer[charsRead - 1] == L'\n')) {
-        charsRead--;
-    }
-
-    if (charsRead == 0) {
-        return {};
-    }
-
-    int utf8Len = WideCharToMultiByte(CP_UTF8, 0, buffer, charsRead, nullptr, 0, nullptr, nullptr);
-    if (utf8Len <= 0) {
-        return {};
-    }
-
-    std::string result(utf8Len, '\0');
-    WideCharToMultiByte(CP_UTF8, 0, buffer, charsRead, &result[0], utf8Len, nullptr, nullptr);
-    return result;
-}
 
 
 std::string loadApiKey() {

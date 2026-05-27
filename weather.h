@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+std::string readUtf8Line();
 void showWeatherByCity(const std::string& apiKey);
 void showWeatherForCity(const std::string& city, const std::string& apiKey);
 
