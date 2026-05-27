@@ -2,11 +2,11 @@
 #include "weather.h"
 #include <vector>
 #include <string>
-
+/*
 std::string readUtf8Line() {
     return "";
 }
-
+*/
 // Тест: Корректное сохранение и загрузка избранного
 TEST(WeatherLogicTest, FavoritesSaveAndLoad) {
     std::vector<std::string> originalFavs = loadFavorites();
